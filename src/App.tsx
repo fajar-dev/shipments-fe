@@ -1,17 +1,24 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import TextField from '@mui/material/TextField';
+import * as React from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import Container from '@mui/material/Container'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
+import InputLabel from '@mui/material/InputLabel'
+import TextField from '@mui/material/TextField'
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import theme from "./theme/theme";
+import { ThemeProvider } from '@mui/material/styles'
 
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       {/* Navbar */}
       <nav className="relative border-b border-gray-300">
         <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
@@ -33,13 +40,11 @@ function App() {
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="xl" className="py-8">
-          {/* Header */}
           <section className="relative mb-6">
           <h1 className="text-4xl font-medium text-center">
             Shipping Label Generator
           </h1>
 
-          {/* Dropdown Bahasa di kanan atas */}
           <div className="absolute right-0 top-0">
             <FormControl sx={{ minWidth: 120 }} size="small">
               <Select labelId="lang-label" defaultValue="id">
@@ -51,9 +56,8 @@ function App() {
         </section>
 
 
-          {/* Detil Pengiriman */}
-          <section>
-            <div className='mb-5'>
+          <section className='mb-10'>
+            <div className='mb-8'>
               <div className="flex items-center gap-2 mb-2">
                 <Typography variant="h6" color="primary">
                   Detil Pengiriman
@@ -62,7 +66,7 @@ function App() {
               <Divider />
             </div>
 
-            <div className='grid grid-cols-1 max-w-[744px]'>
+            <div className='max-w-[744px]'>
               <div className="grid lg:grid-cols-4 md:grid-cols-2  gap-4 mb-5">
                 <FormControl sx={{ minWidth: 150 }} size="small">
                   <InputLabel id="brand">Brand (Logo)</InputLabel>
@@ -84,14 +88,18 @@ function App() {
                 />
               </div>
 
-              <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 mb-5">
-                <TextField
-                  label="Tanggal Pengiriman"
-                  type="date"
-                  required
-                  size="small"
-                  InputLabelProps={{ shrink: true }}
-                />
+              <div className="grid md:grid-cols-2 gap-4 mb-5">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker 
+                    label="Tanggal Pengiriman"
+                    slotProps={{
+                      textField: { 
+                        size: "small",
+                        required: true
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
                 <TextField
                   label="Nomor Resi"
                   size="small"
@@ -110,10 +118,191 @@ function App() {
               </div>
             </div>
           </section>
+
+          <section className='mb-10'>
+            <div className='mb-8'>
+              <div className="flex items-center gap-2 mb-2">
+                <Typography variant="h6" color="primary">
+                  Detil Pengirim
+                </Typography>
+              </div>
+              <Divider />
+            </div>
+
+            <div className='max-w-[744px]'>
+              <div className="grid md:grid-cols-2 gap-4 mb-5">
+                <TextField
+                  label="Nama Depan"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+
+                <TextField
+                  label="Nama Belakang"
+                  size="small"
+                  variant="outlined"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 mb-5">
+                <TextField
+                  label="Phone"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+
+                <TextField
+                  label="Email"
+                  size="small"
+                  variant="outlined"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                <TextField
+                  label="Alamat"
+                  size="small"
+                  variant="outlined"
+                  required
+                  className="md:col-span-2"
+                />
+                <TextField
+                  label="Kota"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+              </div>
+              <div className="grid md:grid-cols-3 gap-4 mb-5">
+                <FormControl  size="small">
+                  <InputLabel id="senderProvince">Provinsi</InputLabel>
+                  <Select
+                    labelId="senderProvince"
+                    id="demo-simple-select"
+                    label="Provinsi"
+                  >
+                    <MenuItem value={'Sumatera Utara'}>Sumatera Utara</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl  size="small">
+                  <InputLabel id="senderCountry">Negara</InputLabel>
+                  <Select
+                    labelId="senderCountry"
+                    id="demo-simple-select"
+                    label="Country"
+                  >
+                    <MenuItem value={'Indonesia'}>Indonesia</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  label="Kode Pos"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className='mb-10'>
+            <div className='mb-8'>
+              <div className="flex items-center gap-2 mb-2">
+                <Typography variant="h6" color="primary">
+                  Detil Penerima
+                </Typography>
+              </div>
+              <Divider />
+            </div>
+
+            <div className='max-w-[744px]'>
+              <div className="grid md:grid-cols-2 gap-4 mb-5">
+                <TextField
+                  label="Nama Depan"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+
+                <TextField
+                  label="Nama Belakang"
+                  size="small"
+                  variant="outlined"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 mb-5">
+                <TextField
+                  label="Phone"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+
+                <TextField
+                  label="Email"
+                  size="small"
+                  variant="outlined"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                <TextField
+                  label="Alamat"
+                  size="small"
+                  variant="outlined"
+                  required
+                  className="md:col-span-2"
+                />
+                <TextField
+                  label="Kota"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+              </div>
+              <div className="grid md:grid-cols-3 gap-4 mb-5">
+                <FormControl  size="small">
+                  <InputLabel id="receiverProvince">Provinsi</InputLabel>
+                  <Select
+                    labelId="receiverProvince"
+                    id="demo-simple-select"
+                    label="Provinsi"
+                  >
+                    <MenuItem value={'Sumatera Utara'}>Sumatera Utara</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl  size="small">
+                  <InputLabel id="receiverCountry">Negara</InputLabel>
+                  <Select
+                    labelId="receiverCountry"
+                    id="demo-simple-select"
+                    label="Country"
+                  >
+                    <MenuItem value={'Indonesia'}>Indonesia</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  label="Kode Pos"
+                  size="small"
+                  variant="outlined"
+                  required
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className='flex justify-end'>
+            <Stack spacing={2} direction="row">
+              <Button variant="outlined" size='large'>Preview</Button>
+              <Button variant="contained" size='large'>Buat Label</Button>
+            </Stack>
+          </section>
         </Container>
       </React.Fragment>
-    </div>
-  );
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
