@@ -15,6 +15,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import theme from "./theme/theme";
 import { ThemeProvider } from '@mui/material/styles'
+import logo from "./assets/logo.png";
+import shipping from "./assets/icon/shipping.svg";
+import shipper from "./assets/icon/shipper.svg";
+import consignee from "./assets/icon/consignee.svg";
 
 function App() {
   return (
@@ -26,7 +30,7 @@ function App() {
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
                 <img
-                  src="https://www.nusa.net.id/kb/content/images/2020/06/logo-nusanet-transparent.png"
+                  src={logo}
                   alt="Nusanet"
                   className="h-8 w-auto"
                 />
@@ -59,6 +63,11 @@ function App() {
           <section className='mb-10'>
             <div className='mb-8'>
               <div className="flex items-center gap-2 mb-2">
+                <img
+                  src={shipping}
+                  alt="shipping Icon"
+                  className="w-auto"
+                />
                 <Typography variant="h6" color="primary">
                   Detil Pengiriman
                 </Typography>
@@ -122,6 +131,11 @@ function App() {
           <section className='mb-10'>
             <div className='mb-8'>
               <div className="flex items-center gap-2 mb-2">
+                <img
+                  src={shipper}
+                  alt="shipper Icon"
+                  className="w-auto"
+                />
                 <Typography variant="h6" color="primary">
                   Detil Pengirim
                 </Typography>
@@ -209,6 +223,11 @@ function App() {
           <section className='mb-10'>
             <div className='mb-8'>
               <div className="flex items-center gap-2 mb-2">
+                <img
+                  src={consignee}
+                  alt="consignee Icon"
+                  className="w-auto"
+                />
                 <Typography variant="h6" color="primary">
                   Detil Penerima
                 </Typography>
