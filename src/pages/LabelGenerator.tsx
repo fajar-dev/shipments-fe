@@ -1,28 +1,28 @@
-import React, { useEffect } from "react";
-import { Container, CssBaseline, Stack, Button, FormControl, MenuItem, Select } from "@mui/material";
-import ShippingDetailForm from "../components/ShippingDetailForm";
-import ShipperForm from "../components/ShipperForm";
-import ConsigneeForm from "../components/ConsigneeForm";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react'
+import { Container, CssBaseline, Stack, Button, FormControl, MenuItem, Select } from '@mui/material'
+import ShippingDetailForm from '../components/ShippingDetailForm'
+import ShipperForm from '../components/ShipperForm'
+import ConsigneeForm from '../components/ConsigneeForm'
+import { useTranslation } from 'react-i18next'
 
 const LabelGenerator: React.FC = () => {
-  const { t, i18n } = useTranslation(); 
-  const [lang, setLang] = React.useState("id");
+  const { t, i18n } = useTranslation() 
+  const [lang, setLang] = React.useState("id")
 
   useEffect(() => {
-    const savedLang = localStorage.getItem("lang");
+    const savedLang = localStorage.getItem("lang")
     if (savedLang) {
-      setLang(savedLang);
-      i18n.changeLanguage(savedLang);
+      setLang(savedLang)
+      i18n.changeLanguage(savedLang)
     }
-  }, [i18n]);
+  }, [i18n])
 
   const handleChangeLang = (event: any) => {
-    const newLang = event.target.value;
-    setLang(newLang);
-    i18n.changeLanguage(newLang);
-    localStorage.setItem("lang", newLang);
-  };
+    const newLang = event.target.value
+    setLang(newLang)
+    i18n.changeLanguage(newLang)
+    localStorage.setItem("lang", newLang)
+  }
 
   return (
     <React.Fragment>
@@ -55,7 +55,7 @@ const LabelGenerator: React.FC = () => {
         </section>
       </Container>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default LabelGenerator;
+export default LabelGenerator

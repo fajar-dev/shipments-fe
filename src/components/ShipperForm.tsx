@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Divider,
   Typography,
@@ -7,8 +7,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
-import shipper from "../assets/icon/shipper.svg";
+} from '@mui/material'
+import shipper from '../assets/icon/shipper.svg'
 
 const ShipperForm: React.FC = () => {
   return (
@@ -68,7 +68,7 @@ const ShipperForm: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ShipperForm;
+export default ShipperForm

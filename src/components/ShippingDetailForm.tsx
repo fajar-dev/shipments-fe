@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Divider,
   Typography,
@@ -7,10 +7,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import shipping from "../assets/icon/shipping.svg";
+} from '@mui/material'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import shipping from '../assets/icon/shipping.svg'
 
 const ShippingDetailForm: React.FC = () => {
   return (
@@ -71,7 +71,7 @@ const ShippingDetailForm: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ShippingDetailForm;
+export default ShippingDetailForm

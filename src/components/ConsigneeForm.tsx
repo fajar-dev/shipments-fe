@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Divider,
   Typography,
@@ -7,8 +7,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
-import consignee from "../assets/icon/consignee.svg";
+} from '@mui/material'
+import consignee from '../assets/icon/consignee.svg'
 
 const ConsigneeForm: React.FC = () => {
   return (
@@ -68,7 +68,7 @@ const ConsigneeForm: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ConsigneeForm;
+export default ConsigneeForm
