@@ -6,26 +6,16 @@ export interface IArea {
   name: string
 }
 
-export const getCountryFn = async (query?: string): Promise<IArea[]> => {
-  try {
-    const response = await api.get("/administrative-area", {
-      params: { q: query || "" },
-    })
-    return response.data?.data?.data || []
-  } catch (error) {
-    console.error("Failed to fetch countries:", error)
-    return []
-  }
+export const getCountry = async (query?: string): Promise<IArea[]> => {
+  const response = await api.get("/administrative-area", {
+    params: { q: query || "" },
+  })
+  return response.data?.data?.data
 }
 
-export const getProvinceFn = async (countryId: string, query?: string): Promise<IArea[]> => {
-  try {
-    const response = await api.get(`/administrative-area/${countryId}`, {
-      params: { q: query || "" },
-    })
-    return response.data?.data?.data || []
-  } catch (error) {
-    console.error(`Failed to fetch provinces for countryId=${countryId}:`, error)
-    return []
-  }
+export const getProvince = async (countryId: string, query?: string): Promise<IArea[]> => {
+  const response = await api.get(`/administrative-area/${countryId}`, {
+    params: { q: query || "" },
+  })
+  return response.data?.data?.data
 }

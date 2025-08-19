@@ -9,15 +9,113 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import DropdownLanguange from '../components/DropdownLanguage'
 import { IArea } from "../api/administativeArea.api"
 import LocationFields from '../components/LocationFields'
+import { getLabel, store } from '../api/shipping.api'
+import { Dayjs } from 'dayjs'
+import { useSnackbar } from '../context/SnackbarProvider'
 
 const LabelGenerator: React.FC = () => {
   const { t } = useTranslation() 
+  const { showMessage } = useSnackbar()
+  const [loading, setLoading] = useState(false)
 
+  /** Shipping State */
+  const [brand, setBrand] = useState("-")
+  const [weight, setWeight] = useState<number | "">( "")
+  const [shippingDate, setShippingDate] = useState<Dayjs | null>(null)
+  const [trackingNumber, setTrackingNumber] = useState("")
+  const [notes, setNotes] = useState("")
+
+  /** Sender State */
   const [senderCountry, setSenderCountry] = useState<IArea | null>(null)
   const [senderProvince, setSenderProvince] = useState<IArea | null>(null)
+  const [senderFirstName, setSenderFirstName] = useState("")
+  const [senderLastName, setSenderLastName] = useState("")
+  const [senderPhone, setSenderPhone] = useState("")
+  const [senderEmail, setSenderEmail] = useState("")
+  const [senderAddress, setSenderAddress] = useState("")
+  const [senderCity, setSenderCity] = useState("")
+  const [senderPostalCode, setSenderPostalCode] = useState("")
+
+  /** Receiver State */
   const [receiverCountry, setReceiverCountry] = useState<IArea | null>(null)
   const [receiverProvince, setReceiverProvince] = useState<IArea | null>(null)
+  const [receiverFirstName, setReceiverFirstName] = useState("")
+  const [receiverLastName, setReceiverLastName] = useState("")
+  const [receiverPhone, setReceiverPhone] = useState("")
+  const [receiverEmail, setReceiverEmail] = useState("")
+  const [receiverAddress, setReceiverAddress] = useState("")
+  const [receiverCity, setReceiverCity] = useState("")
+  const [receiverPostalCode, setReceiverPostalCode] = useState("")
 
+  const resetForm = () => {
+    setBrand("-")
+    setWeight("")
+    setShippingDate(null)
+    setTrackingNumber("")
+    setNotes("")
+
+    setSenderCountry(null)
+    setSenderProvince(null)
+    setSenderFirstName("")
+    setSenderLastName("")
+    setSenderPhone("")
+    setSenderEmail("")
+    setSenderAddress("")
+    setSenderCity("")
+    setSenderPostalCode("")
+
+    setReceiverCountry(null)
+    setReceiverProvince(null)
+    setReceiverFirstName("")
+    setReceiverLastName("")
+    setReceiverPhone("")
+    setReceiverEmail("")
+    setReceiverAddress("")
+    setReceiverCity("")
+    setReceiverPostalCode("")
+  }
+
+  const handleSubmit = async () => {
+    const payload = {
+      brand,
+      weight: Number(weight),
+      shippingDate: shippingDate?.format("YYYY-MM-DD"),
+      trackNumber: trackingNumber,
+      shippingNote: notes,
+
+      senderFirstName,
+      senderLastName,
+      senderPhone,
+      senderEmail,
+      senderAddress,
+      senderCity,
+      senderCountryUuid: senderCountry?.id,
+      senderProvinceUuid: senderProvince?.id,
+      senderPostalCode,
+
+      receiverFirstName,
+      receiverLastName,
+      receiverPhone,
+      receiverEmail,
+      receiverAddress,
+      receiverCity,
+      receiverCountryUuid: receiverCountry?.id,
+      receiverProvinceUuid: receiverProvince?.id,
+      receiverPostalCode,
+    }
+
+      try {
+        setLoading(true)
+        const response = await store(payload)
+        await getLabel(response.data.id)
+        // resetForm()
+      } catch (err: any) {
+        showMessage(err?.response?.data?.message || "Terjadi kesalahan pada server", "error")
+      } finally {
+        setLoading(false)
+      }
+
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -45,11 +143,16 @@ const LabelGenerator: React.FC = () => {
             <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 mb-5">
               <FormControl sx={{ minWidth: 150 }} size="small">
                 <InputLabel id="brand">Brand (Logo)</InputLabel>
-                <Select labelId="brand" label="Brand (Logo)">
+                <Select
+                  labelId="brand"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  label="Brand (Logo)"
+                >
                   <MenuItem value="-">Tidak Pakai</MenuItem>
                   <Divider />
                   <MenuItem value="Nusanet">Nusanet</MenuItem>
-                  <MenuItem value="Nusaid">Nusaid Cloud</MenuItem>
+                  <MenuItem value="Nusaid Cloud">Nusaid Cloud</MenuItem>
                   <MenuItem value="Nusafiber">Nusafiber</MenuItem>
                   <MenuItem value="Nusawork">Nusawork</MenuItem>
                   <MenuItem value="Nusaprospect">Nusaprospect</MenuItem>
@@ -61,6 +164,8 @@ const LabelGenerator: React.FC = () => {
                 size="small"
                 variant="outlined"
                 type="number"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value === "" ? "" : Number(e.target.value))}
               />
             </div>
 
@@ -68,12 +173,17 @@ const LabelGenerator: React.FC = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Tanggal Pengiriman"
-                  slotProps={{
-                    textField: { size: "small", required: true },
-                  }}
+                  value={shippingDate}
+                  onChange={(newValue) => setShippingDate(newValue)}
+                  slotProps={{ textField: { size: "small", required: true } }}
                 />
               </LocalizationProvider>
-              <TextField label="Nomor Resi" size="small" variant="outlined" />
+              <TextField
+                label="Nomor Resi"
+                size="small"
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+              />
             </div>
 
             <div className="mb-3">
@@ -83,6 +193,9 @@ const LabelGenerator: React.FC = () => {
                 rows={3}
                 fullWidth
                 variant="outlined"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="mb-5"
               />
             </div>
           </div>
@@ -101,24 +214,53 @@ const LabelGenerator: React.FC = () => {
 
           <div className="max-w-[744px]">
             <div className="grid md:grid-cols-2 gap-4 mb-5">
-              <TextField label="Nama Depan" size="small" variant="outlined" required />
-              <TextField label="Nama Belakang" size="small" variant="outlined" />
+              <TextField
+                label="Nama Depan"
+                size="small"
+                value={senderFirstName}
+                onChange={(e) => setSenderFirstName(e.target.value)}
+                required
+              />
+              <TextField
+                label="Nama Belakang"
+                size="small"
+                value={senderLastName}
+                onChange={(e) => setSenderLastName(e.target.value)}
+              />
             </div>
 
             <div className="grid md:grid-cols-2 gap-4 mb-5">
-              <TextField label="Phone" size="small" variant="outlined" required />
-              <TextField label="Email" size="small" variant="outlined" />
+              <TextField
+                label="Phone"
+                size="small"
+                value={senderPhone}
+                onChange={(e) => setSenderPhone(e.target.value)}
+                required
+              />
+              <TextField
+                label="Email"
+                size="small"
+                value={senderEmail}
+                onChange={(e) => setSenderEmail(e.target.value)}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
               <TextField
                 label="Alamat"
                 size="small"
-                variant="outlined"
+                value={senderAddress}
+                onChange={(e) => setSenderAddress(e.target.value)}
                 required
                 className="md:col-span-2"
               />
-              <TextField label="Kota" size="small" variant="outlined" required />
+              <TextField
+                label="Kota"
+                size="small"
+                value={senderCity}
+                onChange={(e) => setSenderCity(e.target.value)}
+                required
+              />
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 mb-5">
@@ -131,8 +273,9 @@ const LabelGenerator: React.FC = () => {
               <TextField
                 label="Kode Pos"
                 size="small"
-                variant="outlined"
                 type="number"
+                value={senderPostalCode}
+                onChange={(e) => setSenderPostalCode(e.target.value)}
                 required
               />
             </div>
@@ -152,24 +295,53 @@ const LabelGenerator: React.FC = () => {
 
           <div className="max-w-[744px]">
             <div className="grid md:grid-cols-2 gap-4 mb-5">
-              <TextField label="Nama Depan" size="small" variant="outlined" required />
-              <TextField label="Nama Belakang" size="small" variant="outlined" />
+              <TextField
+                label="Nama Depan"
+                size="small"
+                value={receiverFirstName}
+                onChange={(e) => setReceiverFirstName(e.target.value)}
+                required
+              />
+              <TextField
+                label="Nama Belakang"
+                size="small"
+                value={receiverLastName}
+                onChange={(e) => setReceiverLastName(e.target.value)}
+              />
             </div>
 
             <div className="grid md:grid-cols-2 gap-4 mb-5">
-              <TextField label="Phone" size="small" variant="outlined" required />
-              <TextField label="Email" size="small" variant="outlined" />
+              <TextField
+                label="Phone"
+                size="small"
+                value={receiverPhone}
+                onChange={(e) => setReceiverPhone(e.target.value)}
+                required
+              />
+              <TextField
+                label="Email"
+                size="small"
+                value={receiverEmail}
+                onChange={(e) => setReceiverEmail(e.target.value)}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
               <TextField
                 label="Alamat"
                 size="small"
-                variant="outlined"
+                value={receiverAddress}
+                onChange={(e) => setReceiverAddress(e.target.value)}
                 required
                 className="md:col-span-2"
               />
-              <TextField label="Kota" size="small" variant="outlined" required />
+              <TextField
+                label="Kota"
+                size="small"
+                value={receiverCity}
+                onChange={(e) => setReceiverCity(e.target.value)}
+                required
+              />
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 mb-5">
@@ -182,8 +354,9 @@ const LabelGenerator: React.FC = () => {
               <TextField
                 label="Kode Pos"
                 size="small"
-                variant="outlined"
                 type="number"
+                value={receiverPostalCode}
+                onChange={(e) => setReceiverPostalCode(e.target.value)}
                 required
               />
             </div>
@@ -191,9 +364,16 @@ const LabelGenerator: React.FC = () => {
         </section>
 
         <section className="flex justify-end">
-          <Stack spacing={2} direction="row">
-            <Button variant="outlined" size="large">{t("preview")}</Button>
-            <Button variant="contained" size="large">{t("createLabel")}</Button>
+          <Stack direction="row" spacing={2} justifyContent="flex-end" className="mt-4">
+            <Button variant="outlined">{t("preview")}</Button>
+            <Button
+              variant="contained" 
+              onClick={handleSubmit}
+              loading={loading}
+              loadingPosition="end"
+            >
+              {t("createLabel")}
+              </Button>
           </Stack>
         </section>
       </Container>

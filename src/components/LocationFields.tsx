@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Autocomplete, TextField, CircularProgress } from "@mui/material"
-import { getCountryFn, getProvinceFn, IArea } from "../api/administativeArea.api"
+import { getCountry, getProvince, IArea } from "../api/administativeArea.api"
 
 interface LocationFieldsProps {
   countryValue: IArea | null
@@ -26,22 +26,20 @@ const LocationFields: React.FC<LocationFieldsProps> = ({
 
   const fetchCountries = async (query?: string) => {
     setLoadingCountry(true)
-    const data = await getCountryFn(query)
+    const data = await getCountry(query)
     setCountries(data)
     setLoadingCountry(false)
   }
 
   const fetchProvinces = async (countryId: string, query?: string) => {
     setLoadingProvince(true)
-    const data = await getProvinceFn(countryId, query)
+    const data = await getProvince(countryId, query)
     setProvinces(data)
     setLoadingProvince(false)
   }
 
-  // Load countries saat mount
   useEffect(() => { fetchCountries() }, [])
 
-  // Reset provinsi saat country berubah
   useEffect(() => {
     onProvinceChange(null)
     if (!countryValue) {
