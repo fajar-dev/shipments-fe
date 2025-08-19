@@ -1,4 +1,4 @@
-import React  from 'react'
+import React, { useState } from 'react'
 import { Container, CssBaseline, Stack, Button, FormControl, MenuItem, Select, Typography, Divider, TextField, InputLabel } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import consignee from '../assets/icon/consignee.svg'
@@ -7,10 +7,16 @@ import shipping from '../assets/icon/shipping.svg'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import DropdownLanguange from '../components/DropdownLanguage'
-
+import { IArea } from "../api/administativeArea.api"
+import LocationFields from '../components/LocationFields'
 
 const LabelGenerator: React.FC = () => {
   const { t } = useTranslation() 
+
+  const [senderCountry, setSenderCountry] = useState<IArea | null>(null)
+  const [senderProvince, setSenderProvince] = useState<IArea | null>(null)
+  const [receiverCountry, setReceiverCountry] = useState<IArea | null>(null)
+  const [receiverProvince, setReceiverProvince] = useState<IArea | null>(null)
 
   return (
     <React.Fragment>
@@ -116,18 +122,12 @@ const LabelGenerator: React.FC = () => {
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 mb-5">
-              <FormControl size="small">
-                <InputLabel id="senderProvince">Provinsi</InputLabel>
-                <Select labelId="senderProvince" label="Provinsi">
-                  <MenuItem value="Sumatera Utara">Sumatera Utara</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl size="small">
-                <InputLabel id="senderCountry">Negara</InputLabel>
-                <Select labelId="senderCountry" label="Country">
-                  <MenuItem value="Indonesia">Indonesia</MenuItem>
-                </Select>
-              </FormControl>
+              <LocationFields
+                countryValue={senderCountry}
+                provinceValue={senderProvince}
+                onCountryChange={setSenderCountry}
+                onProvinceChange={setSenderProvince}
+              />
               <TextField
                 label="Kode Pos"
                 size="small"
@@ -139,7 +139,7 @@ const LabelGenerator: React.FC = () => {
           </div>
         </section>
         
-         <section className="mb-10">
+        <section className="mb-10">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
               <img src={consignee} alt="consignee Icon" className="w-auto" />
@@ -173,18 +173,12 @@ const LabelGenerator: React.FC = () => {
             </div>
 
             <div className="grid md:grid-cols-3 gap-4 mb-5">
-              <FormControl size="small">
-                <InputLabel id="receiverProvince">Provinsi</InputLabel>
-                <Select labelId="receiverProvince" label="Provinsi">
-                  <MenuItem value="Sumatera Utara">Sumatera Utara</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl size="small">
-                <InputLabel id="receiverCountry">Negara</InputLabel>
-                <Select labelId="receiverCountry" label="Country">
-                  <MenuItem value="Indonesia">Indonesia</MenuItem>
-                </Select>
-              </FormControl>
+              <LocationFields
+                countryValue={receiverCountry}
+                provinceValue={receiverProvince}
+                onCountryChange={setReceiverCountry}
+                onProvinceChange={setReceiverProvince}
+              />
               <TextField
                 label="Kode Pos"
                 size="small"
