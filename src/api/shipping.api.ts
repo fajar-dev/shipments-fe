@@ -3,7 +3,7 @@ import api from "./axiosInstance"
 export interface ILabelPayload {
   brand: string
   weight?: number
-  shippingDate?: string
+  shippingDate: string
   trackNumber?: string
   shippingNote?: string
 
@@ -15,7 +15,7 @@ export interface ILabelPayload {
   senderCity: string
   senderCountryUuid?: string
   senderProvinceUuid?: string
-  senderPostalCode: string
+  senderPostalCode: number | string
 
   receiverFirstName: string
   receiverLastName?: string
@@ -25,7 +25,7 @@ export interface ILabelPayload {
   receiverCity: string
   receiverCountryUuid?: string
   receiverProvinceUuid?: string
-  receiverPostalCode: string
+  receiverPostalCode: number | string
 }
 
 export const store = async (payload: ILabelPayload) => {
