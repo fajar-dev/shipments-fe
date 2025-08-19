@@ -6,7 +6,7 @@ import en from './locales/en.json'
 import id from './locales/id.json'
 
 i18n
-  .use(LanguageDetector) // ⬅️ aktifin detektor
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
