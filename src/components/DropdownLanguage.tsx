@@ -22,7 +22,7 @@ const DropdownLanguange: React.FC = () => {
   }
   
   return (
-    <div className="absolute right-0 top-0 me-15">
+    <div className="md:absolute md:right-0 md:top-0 flex justify-center">
       <FormControl sx={{ minWidth: 120 }} size="small">
         <Select value={lang} onChange={handleChangeLang}>
           <MenuItem value="id">Bahasa</MenuItem>
