@@ -190,6 +190,7 @@ const LabelGenerator: React.FC = () => {
                             size: 'small',
                             error: touched.shippingDate && Boolean(errors.shippingDate),
                             helperText: touched.shippingDate && errors.shippingDate,
+                            required: true
                           },
                         }}
                       />
