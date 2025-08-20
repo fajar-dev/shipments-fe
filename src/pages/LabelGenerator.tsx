@@ -22,31 +22,10 @@ import DropdownLanguange from '../components/DropdownLanguage'
 import LocationFields from '../components/LocationFields'
 import { getLabel, store } from '../api/shipping.api'
 import { useSnackbar } from '../context/SnackbarProvider'
-import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
 import dayjs, { Dayjs } from 'dayjs'
 import { IArea } from '../api/administativeArea.api'
-
-// Yup Schema
-const LabelSchema = Yup.object().shape({
-  brand: Yup.string().required('Brand wajib dipilih'),
-  weight: Yup.number()
-    .typeError('Berat harus berupa angka')
-    .positive('Berat harus lebih dari 0'),
-  shippingDate: Yup.date().required('Tanggal pengiriman wajib diisi'),
-
-  senderFirstName: Yup.string().required('Nama depan pengirim wajib diisi'),
-  senderPhone: Yup.string().required('Nomor telepon pengirim wajib diisi'),
-  senderAddress: Yup.string().required('Alamat pengirim wajib diisi'),
-  senderCity: Yup.string().required('Kota pengirim wajib diisi'),
-  senderPostalCode: Yup.string().required('Kode pos pengirim wajib diisi'),
-
-  receiverFirstName: Yup.string().required('Nama depan penerima wajib diisi'),
-  receiverPhone: Yup.string().required('Nomor telepon penerima wajib diisi'),
-  receiverAddress: Yup.string().required('Alamat penerima wajib diisi'),
-  receiverCity: Yup.string().required('Kota penerima wajib diisi'),
-  receiverPostalCode: Yup.string().required('Kode pos penerima wajib diisi'),
-})
+import { shippingSchema } from '../validator/shipping.validator'
 
 const LabelGenerator: React.FC = () => {
   const { t } = useTranslation()
@@ -83,7 +62,7 @@ const LabelGenerator: React.FC = () => {
 
   const handleSubmit = async (
     values: typeof initialValues,
-    { resetForm }: { resetForm: () => void }   // ambil resetForm dari Formik
+    { resetForm }: { resetForm: () => void } 
   ) => {
     const payload = {
       brand: values.brand,
@@ -118,7 +97,7 @@ const LabelGenerator: React.FC = () => {
       const response = await store(payload)
       await getLabel(response.data.id)
       showMessage('Label berhasil dibuat', 'success')
-      resetForm()  // reset form setelah submit sukses
+      resetForm()
     } catch (err: any) {
       showMessage(
         err?.response?.data?.message || 'Terjadi kesalahan pada server',
@@ -132,7 +111,7 @@ const LabelGenerator: React.FC = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={LabelSchema}
+      validationSchema={shippingSchema}
       onSubmit={handleSubmit}
     >
       {({
