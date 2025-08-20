@@ -20,17 +20,19 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import DropdownLanguange from '../components/DropdownLanguage'
 import LocationFields from '../components/LocationFields'
-import { getLabel, store } from '../api/shipping.api'
+import { generateLabel, previewLabel, store } from '../api/shipping.api'
 import { useSnackbar } from '../context/SnackbarProvider'
 import { Formik, Form } from 'formik'
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 import { IArea } from '../api/administativeArea.api'
 import { shippingSchema } from '../validator/shipping.validator'
+import { mapValuesToPayload } from '../utils/shippingPayload'
 
 const LabelGenerator: React.FC = () => {
   const { t } = useTranslation()
   const { showMessage } = useSnackbar()
-  const [loading, setLoading] = useState(false)
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
+  const [loadingPreview, setLoadingPreview] = useState(false)
 
   const initialValues = {
     brand: '-',
@@ -64,38 +66,11 @@ const LabelGenerator: React.FC = () => {
     values: typeof initialValues,
     { resetForm }: { resetForm: () => void } 
   ) => {
-    const payload = {
-      brand: values.brand,
-      weight: Number(values.weight),
-      shippingDate: dayjs(values.shippingDate).format('YYYY-MM-DD'),
-      trackNumber: values.trackingNumber,
-      shippingNote: values.notes,
-
-      senderFirstName: values.senderFirstName,
-      senderLastName: values.senderLastName,
-      senderPhone: values.senderPhone,
-      senderEmail: values.senderEmail,
-      senderAddress: values.senderAddress,
-      senderCity: values.senderCity,
-      senderCountryUuid: values.senderCountry?.id,
-      senderProvinceUuid: values.senderProvince?.id,
-      senderPostalCode: values.senderPostalCode,
-
-      receiverFirstName: values.receiverFirstName,
-      receiverLastName: values.receiverLastName,
-      receiverPhone: values.receiverPhone,
-      receiverEmail: values.receiverEmail,
-      receiverAddress: values.receiverAddress,
-      receiverCity: values.receiverCity,
-      receiverCountryUuid: values.receiverCountry?.id,
-      receiverProvinceUuid: values.receiverProvince?.id,
-      receiverPostalCode: values.receiverPostalCode,
-    }
-
     try {
-      setLoading(true)
+      setLoadingSubmit(true)
+      const payload = mapValuesToPayload(values)
       const response = await store(payload)
-      await getLabel(response.data.id)
+      await generateLabel(response.data.id)
       showMessage('Label berhasil dibuat', 'success')
       resetForm()
     } catch (err: any) {
@@ -104,7 +79,22 @@ const LabelGenerator: React.FC = () => {
         'error'
       )
     } finally {
-      setLoading(false)
+      setLoadingSubmit(false)
+    }
+  }
+
+  const handlePreview = async (values: typeof initialValues) => {
+    try {
+      setLoadingPreview(true)
+      const payload = mapValuesToPayload(values)
+      await previewLabel(payload) 
+    } catch (err: any) {
+      showMessage(
+        err?.response?.data?.message || 'Gagal preview label',
+        'error'
+      )
+    } finally {
+      setLoadingPreview(false)
     }
   }
 
@@ -477,14 +467,21 @@ const LabelGenerator: React.FC = () => {
                 justifyContent="flex-end"
                 className="mt-4"
               >
-                <Button variant="outlined">{t('preview')}</Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => handlePreview(values)}
+                  loading={loadingPreview}
+                  loadingPosition="end"
+                >
+                  {t('preview')}
+                </Button>
                   <Button
                     type="submit"
                     variant="contained" 
-                    loading={loading}
+                    loading={loadingSubmit}
                     loadingPosition="end"
                   >
-                    {loading ? 'Loading' : t('createLabel')}
+                    {loadingSubmit ? 'Loading' : t('createLabel')}
                   </Button>
               </Stack>
             </section>

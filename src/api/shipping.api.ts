@@ -33,7 +33,7 @@ export const store = async (payload: ILabelPayload) => {
   return response.data
 }
 
-export const getLabel = async (id: string) => {
+export const generateLabel = async (id: string) => {
   const response = await api.get(`/shipments/${id}/label`, {
       responseType: "blob",
     })
@@ -49,4 +49,17 @@ export const getLabel = async (id: string) => {
   link.click()
   link.remove()
   window.URL.revokeObjectURL(url)
+}
+
+export const previewLabel = async (payload: ILabelPayload) => {
+  const response = await api.post("/shipments/label-preview", payload, {
+    responseType: "blob",
+  })
+
+  const blob = new Blob([response.data], { type: "application/pdf" })
+  const url = window.URL.createObjectURL(blob)
+
+  window.open(url, "_blank")
+
+  setTimeout(() => window.URL.revokeObjectURL(url), 10000)
 }
