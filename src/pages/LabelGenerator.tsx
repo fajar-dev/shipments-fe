@@ -112,15 +112,15 @@ const LabelGenerator: React.FC = () => {
         handleBlur,
         setFieldValue,
       }) => (
-        <Form>
-          <CssBaseline />
-          <Container maxWidth="xl" className="py-8">
-            <section className="relative mb-6">
-              <h1 className="text-4xl font-medium text-center">{t('title')}</h1>
-              <DropdownLanguange />
-            </section>
+        <Container maxWidth="xl" className="py-8">
+          <main className='lg:mx-15'>
+            <Form>
+            <CssBaseline />
+              <section className="relative mb-6">
+                <h1 className="text-4xl font-medium text-center">{t('title')}</h1>
+                <DropdownLanguange />
+              </section>
 
-            <main className='lg:mx-15'>
               {/* SHIPPING DETAIL */}
               <section className="mb-10">
                 <div className="mb-8">
@@ -486,9 +486,9 @@ const LabelGenerator: React.FC = () => {
                     </Button>
                 </Stack>
               </section>
-            </main>
-          </Container>
-        </Form>
+            </Form>
+          </main>
+        </Container>
       )}
     </Formik>
   )
