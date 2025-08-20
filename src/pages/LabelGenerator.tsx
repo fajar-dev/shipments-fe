@@ -117,7 +117,7 @@ const LabelGenerator: React.FC = () => {
             <Form>
             <CssBaseline />
               <section className="relative mb-6">
-                <h1 className="text-4xl font-medium text-center">{t('title')}</h1>
+                <h1 className="lg:text-4xl md:text-2xl text-xl text-center">{t('title')}</h1>
                 <DropdownLanguange />
               </section>
 
