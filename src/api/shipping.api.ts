@@ -2,9 +2,6 @@ import api from "./axiosInstance"
 
 export interface ILabelPayload {
   brand: string
-  weight?: number
-  shippingDate: string
-  trackNumber?: string
   shippingNote?: string
 
   senderFirstName: string
