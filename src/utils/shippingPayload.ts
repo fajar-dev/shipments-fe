@@ -1,14 +1,8 @@
 import { ILabelPayload } from '../api/shipping.api'
-import dayjs from 'dayjs'
 
 export const mapValuesToPayload = (values: any): ILabelPayload => ({
   brand: values.brand,
-  weight: values.weight ? Number(values.weight) : undefined,
-  shippingDate: values.shippingDate
-    ? dayjs(values.shippingDate).format('YYYY-MM-DD')
-    : '', 
-  trackNumber: values.trackingNumber,
-  shippingNote: values.notes,
+  shippingNote: values.shippingNotes,
 
   senderFirstName: values.senderFirstName,
   senderLastName: values.senderLastName,
