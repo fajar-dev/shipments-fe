@@ -22,8 +22,9 @@ import { generateLabel, previewLabel, store } from '../api/shipping.api'
 import { useSnackbar } from '../context/SnackbarProvider'
 import { Formik, Form } from 'formik'
 import { IArea } from '../api/administativeArea.api'
-import { shippingSchema } from '../validator/shipping.validator'
+import { useShippingSchema } from '../validator/shipping.validator'
 import { mapValuesToPayload } from '../utils/shippingPayload'
+// import { useTranslation } from "react-i18next"
 
 const LabelGenerator: React.FC = () => {
   const { t } = useTranslation()
@@ -92,6 +93,8 @@ const LabelGenerator: React.FC = () => {
     }
   }
 
+  const shippingSchema = useShippingSchema()
+
   return (
     <Formik
       initialValues={initialValues}
@@ -111,7 +114,7 @@ const LabelGenerator: React.FC = () => {
             <Form>
             <CssBaseline />
               <section className="relative mb-6">
-                <h1 className="lg:text-4xl md:text-2xl text-xl text-center">{t('title')}</h1>
+                <h1 className="lg:text-4xl md:text-2xl text-xl text-center">{t('shipping.title')}</h1>
                 <DropdownLanguange />
               </section>
 
@@ -121,7 +124,7 @@ const LabelGenerator: React.FC = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <img src={shipper} alt="shipper Icon" className="w-auto" />
                     <Typography variant="h6" color="primary">
-                      Detil Pengirim
+                      {t('shipping.form.senderDetails')}
                     </Typography>
                   </div>
                   <Divider />
@@ -150,7 +153,7 @@ const LabelGenerator: React.FC = () => {
                     </FormControl>                  
                   <div className="grid md:grid-cols-2 gap-4 mb-5">
                     <TextField
-                      label="Nama Depan"
+                      label={t("shipping.form.firstName")} 
                       size="small"
                       name="senderFirstName"
                       value={values.senderFirstName}
@@ -165,7 +168,7 @@ const LabelGenerator: React.FC = () => {
                       }
                     />
                     <TextField
-                      label="Nama Belakang"
+                      label={t("shipping.form.lastName")}
                       size="small"
                       name="senderLastName"
                       value={values.senderLastName}
@@ -176,7 +179,7 @@ const LabelGenerator: React.FC = () => {
 
                   <div className="grid md:grid-cols-2 gap-4 mb-5">
                     <TextField
-                      label="Phone"
+                      label={t("shipping.form.phone")}
                       size="small"
                       name="senderPhone"
                       required
@@ -187,7 +190,7 @@ const LabelGenerator: React.FC = () => {
                       helperText={touched.senderPhone && errors.senderPhone}
                     />
                     <TextField
-                      label="Email"
+                      label={t("shipping.form.email")}
                       size="small"
                       name="senderEmail"
                       value={values.senderEmail}
@@ -198,7 +201,7 @@ const LabelGenerator: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                     <TextField
-                      label="Alamat"
+                      label={t("shipping.form.address")}
                       size="small"
                       name="senderAddress"
                       required
@@ -212,7 +215,7 @@ const LabelGenerator: React.FC = () => {
                       className="md:col-span-2"
                     />
                     <TextField
-                      label="Kota"
+                      label={t("shipping.form.city")}
                       size="small"
                       name="senderCity"
                       required
@@ -236,7 +239,7 @@ const LabelGenerator: React.FC = () => {
                       }
                     />
                     <TextField
-                      label="Kode Pos"
+                      label={t("shipping.form.postalCode")}
                       size="small"
                       type="number"
                       name="senderPostalCode"
@@ -262,7 +265,7 @@ const LabelGenerator: React.FC = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <img src={consignee} alt="consignee Icon" className="w-auto" />
                     <Typography variant="h6" color="primary">
-                      Detil Penerima
+                      {t("shipping.form.receiverDetails")}
                     </Typography>
                   </div>
                   <Divider />
@@ -271,7 +274,7 @@ const LabelGenerator: React.FC = () => {
                 <div className="max-w-[744px]">
                   <div className="grid md:grid-cols-2 gap-4 mb-5">
                     <TextField
-                      label="Nama Depan"
+                      label={t("shipping.form.firstName")} 
                       size="small"
                       name="receiverFirstName"
                       required
@@ -287,7 +290,7 @@ const LabelGenerator: React.FC = () => {
                       }
                     />
                     <TextField
-                      label="Nama Belakang"
+                      label={t("shipping.form.lastName")}
                       size="small"
                       name="receiverLastName"
                       value={values.receiverLastName}
@@ -298,7 +301,7 @@ const LabelGenerator: React.FC = () => {
 
                   <div className="grid md:grid-cols-2 gap-4 mb-5">
                     <TextField
-                      label="Phone"
+                      label={t("shipping.form.phone")}
                       size="small"
                       name="receiverPhone"
                       required
@@ -311,7 +314,7 @@ const LabelGenerator: React.FC = () => {
                       helperText={touched.receiverPhone && errors.receiverPhone}
                     />
                     <TextField
-                      label="Email"
+                      label={t("shipping.form.email")}
                       size="small"
                       name="receiverEmail"
                       value={values.receiverEmail}
@@ -322,7 +325,7 @@ const LabelGenerator: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                     <TextField
-                      label="Alamat"
+                      label={t("shipping.form.address")}
                       size="small"
                       name="receiverAddress"
                       required
@@ -337,7 +340,7 @@ const LabelGenerator: React.FC = () => {
                       className="md:col-span-2"
                     />
                     <TextField
-                      label="Kota"
+                      label={t("shipping.form.city")}
                       size="small"
                       name="receiverCity"
                       required
@@ -361,7 +364,7 @@ const LabelGenerator: React.FC = () => {
                       }
                     />
                     <TextField
-                      label="Kode Pos"
+                      label={t("shipping.form.postalCode")}
                       size="small"
                       type="number"
                       name="receiverPostalCode"
@@ -386,7 +389,7 @@ const LabelGenerator: React.FC = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <img src={shipping} alt="shipping Icon" className="w-auto" />
                     <Typography variant="h6" color="primary">
-                      Detil Pengiriman
+                      {t("shipping.form.additionalDetails")}
                     </Typography>
                   </div>
                   <Divider />
@@ -396,7 +399,7 @@ const LabelGenerator: React.FC = () => {
 
                   <div className="mb-3">
                     <TextField
-                      label="Catatan Pengiriman"
+                      label={t("shipping.form.shippingNote")}
                       multiline
                       rows={3}
                       fullWidth
@@ -423,7 +426,7 @@ const LabelGenerator: React.FC = () => {
                     loading={loadingPreview}
                     loadingPosition="end"
                   >
-                    {t('preview')}
+                    {t('shipping.preview')}
                   </Button>
                     <Button
                       type="submit"
@@ -431,7 +434,7 @@ const LabelGenerator: React.FC = () => {
                       loading={loadingSubmit}
                       loadingPosition="end"
                     >
-                      {loadingSubmit ? 'Loading' : t('createLabel')}
+                      {loadingSubmit ? 'Loading' : t('shipping.createLabel')}
                     </Button>
                 </Stack>
               </section>

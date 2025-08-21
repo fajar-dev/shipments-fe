@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Autocomplete, TextField, CircularProgress } from "@mui/material"
 import { getCountry, getProvince, IArea } from "../api/administativeArea.api"
+import { useTranslation } from "react-i18next"
 
 interface LocationFieldsProps {
   countryValue: IArea | null
@@ -16,9 +17,11 @@ const LocationFields: React.FC<LocationFieldsProps> = ({
   provinceValue,
   onCountryChange,
   onProvinceChange,
-  countryLabel = "Negara",
-  provinceLabel = "Provinsi",
+  countryLabel,
+  provinceLabel,
 }) => {
+  const { t } = useTranslation()
+
   const [countries, setCountries] = useState<IArea[]>([])
   const [provinces, setProvinces] = useState<IArea[]>([])
   const [loadingCountry, setLoadingCountry] = useState(false)
@@ -38,7 +41,9 @@ const LocationFields: React.FC<LocationFieldsProps> = ({
     setLoadingProvince(false)
   }
 
-  useEffect(() => { fetchCountries() }, [])
+  useEffect(() => {
+    fetchCountries()
+  }, [])
 
   useEffect(() => {
     onProvinceChange(null)
@@ -61,13 +66,15 @@ const LocationFields: React.FC<LocationFieldsProps> = ({
         renderInput={(params) => (
           <TextField
             {...params}
-            label={countryLabel}
+            label={countryLabel || t("shipping.form.country")} // ✅ pakai i18n
             size="small"
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {loadingCountry ? <CircularProgress color="inherit" size={20} /> : null}
+                  {loadingCountry ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                   {params.InputProps.endAdornment}
                 </>
               ),
@@ -81,19 +88,23 @@ const LocationFields: React.FC<LocationFieldsProps> = ({
         getOptionLabel={(option) => option.name}
         value={provinceValue}
         onChange={(_, val) => onProvinceChange(val)}
-        onInputChange={(_, val) => countryValue && fetchProvinces(countryValue.id, val)}
+        onInputChange={(_, val) =>
+          countryValue && fetchProvinces(countryValue.id, val)
+        }
         disabled={!countryValue}
         loading={loadingProvince}
         renderInput={(params) => (
           <TextField
             {...params}
-            label={provinceLabel}
+            label={provinceLabel || t("shipping.form.province")} // ✅ pakai i18n
             size="small"
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {loadingProvince ? <CircularProgress color="inherit" size={20} /> : null}
+                  {loadingProvince ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                   {params.InputProps.endAdornment}
                 </>
               ),

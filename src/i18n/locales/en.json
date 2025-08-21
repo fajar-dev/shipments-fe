@@ -1,5 +1,49 @@
 {
-  "title": "Shipping Label Generator",
-  "preview": "Preview",
-  "createLabel": "Create Label"
+  "shipping": {
+    "title": "Shipping Label Generator",
+    "preview": "Preview",
+    "createLabel": "Create Label",
+
+    "form": {
+      "senderDetails": "Sender Details",
+      "receiverDetails": "Receiver Details",
+      "additionalDetails": "Additional Details",
+
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "city": "City",
+      "province": "Province",
+      "country": "Country",
+      "postalCode": "Postal Code",
+      "pickupFromCustomer": "Pickup from Customer",
+      "shippingNote": "Shipping Note",
+      "brand": "Brand"
+    },
+
+    "validation": {
+      "brandRequired": "Brand is required",
+      "shippingNotesOptional": "Shipping notes are optional",
+
+      "senderFirstNameRequired": "Sender's first name is required",
+      "senderLastNameOptional": "Sender's last name is optional",
+      "senderPhoneRequired": "Sender's phone number is required",
+      "senderEmailOptional": "Sender's email is optional",
+      "senderAddressRequired": "Sender's address is required",
+      "senderCityRequired": "Sender's city is required",
+      "senderPostalCodeNumber": "Sender's postal code must be a number",
+      "senderPostalCodeRequired": "Sender's postal code is required",
+
+      "receiverFirstNameRequired": "Receiver's first name is required",
+      "receiverLastNameOptional": "Receiver's last name is optional",
+      "receiverPhoneRequired": "Receiver's phone number is required",
+      "receiverEmailOptional": "Receiver's email is optional",
+      "receiverAddressRequired": "Receiver's address is required",
+      "receiverCityRequired": "Receiver's city is required",
+      "receiverPostalCodeNumber": "Receiver's postal code must be a number",
+      "receiverPostalCodeRequired": "Receiver's postal code is required"
+    }
+  }
 }

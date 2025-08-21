@@ -1,5 +1,49 @@
 {
-  "title": "Generator Label Pengiriman",
-  "preview": "Pratinjau",
-  "createLabel": "Buat Label"
+  "shipping": {
+    "title": "Generator Label Pengiriman",
+    "preview": "Pratinjau",
+    "createLabel": "Buat Label",
+
+    "form": {
+      "senderDetails": "Detil Pengirim",
+      "receiverDetails": "Detil Penerima",
+      "additionalDetails": "Detil Tambahan",
+
+      "firstName": "Nama Depan",
+      "lastName": "Nama Belakang",
+      "phone": "No HP",
+      "email": "Email",
+      "address": "Alamat",
+      "city": "Kota",
+      "province": "Provinsi",
+      "country": "Negara",
+      "postalCode": "Kode Pos",
+      "pickupFromCustomer": "Ambil dari Customer",
+      "shippingNote": "Catatan Pengiriman",
+      "brand": "Brand"
+    },
+
+    "validation": {
+      "brandRequired": "Brand wajib dipilih",
+      "shippingNotesOptional": "Catatan pengiriman opsional",
+
+      "senderFirstNameRequired": "Nama depan pengirim wajib diisi",
+      "senderLastNameOptional": "Nama belakang pengirim opsional",
+      "senderPhoneRequired": "No HP pengirim wajib diisi",
+      "senderEmailOptional": "Email pengirim opsional",
+      "senderAddressRequired": "Alamat pengirim wajib diisi",
+      "senderCityRequired": "Kota pengirim wajib diisi",
+      "senderPostalCodeNumber": "Kode pos pengirim harus berupa angka",
+      "senderPostalCodeRequired": "Kode pos pengirim wajib diisi",
+
+      "receiverFirstNameRequired": "Nama depan penerima wajib diisi",
+      "receiverLastNameOptional": "Nama belakang penerima opsional",
+      "receiverPhoneRequired": "No HP penerima wajib diisi",
+      "receiverEmailOptional": "Email penerima opsional",
+      "receiverAddressRequired": "Alamat penerima wajib diisi",
+      "receiverCityRequired": "Kota penerima wajib diisi",
+      "receiverPostalCodeNumber": "Kode pos penerima harus berupa angka",
+      "receiverPostalCodeRequired": "Kode pos penerima wajib diisi"
+    }
+  }
 }
