@@ -16,14 +16,11 @@ import { useTranslation } from 'react-i18next'
 import consignee from '../assets/icon/consignee.svg'
 import shipper from '../assets/icon/shipper.svg'
 import shipping from '../assets/icon/shipping.svg'
-// import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import DropdownLanguange from '../components/DropdownLanguage'
 import LocationFields from '../components/LocationFields'
 import { generateLabel, previewLabel, store } from '../api/shipping.api'
 import { useSnackbar } from '../context/SnackbarProvider'
 import { Formik, Form } from 'formik'
-// import { Dayjs } from 'dayjs'
 import { IArea } from '../api/administativeArea.api'
 import { shippingSchema } from '../validator/shipping.validator'
 import { mapValuesToPayload } from '../utils/shippingPayload'
@@ -131,6 +128,26 @@ const LabelGenerator: React.FC = () => {
                 </div>
 
                 <div className="max-w-[744px]">
+                    <FormControl sx={{ minWidth: 150 }} size="small" error={touched.brand && Boolean(errors.brand)}>
+                      <InputLabel id="brand">Brand (Logo)</InputLabel>
+                      <Select
+                        name="brand"
+                        labelId="brand"
+                        value={values.brand}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        label="Brand (Logo)"
+                        className="mb-5"
+                      >
+                        <MenuItem value="-">Tidak Pakai</MenuItem>
+                        <Divider />
+                        <MenuItem value="Nusanet">Nusanet</MenuItem>
+                        <MenuItem value="Nusaid Cloud">Nusaid Cloud</MenuItem>
+                        <MenuItem value="Nusafiber">Nusafiber</MenuItem>
+                        <MenuItem value="Nusawork">Nusawork</MenuItem>
+                        <MenuItem value="Nusaprospect">Nusaprospect</MenuItem>
+                      </Select>
+                    </FormControl>                  
                   <div className="grid md:grid-cols-2 gap-4 mb-5">
                     <TextField
                       label="Nama Depan"
@@ -376,28 +393,6 @@ const LabelGenerator: React.FC = () => {
                 </div>
 
                 <div className="max-w-[744px]">
-                  <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 mb-5">
-                    <FormControl sx={{ minWidth: 150 }} size="small" error={touched.brand && Boolean(errors.brand)}>
-                      <InputLabel id="brand">Brand (Logo)</InputLabel>
-                      <Select
-                        name="brand"
-                        labelId="brand"
-                        value={values.brand}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        label="Brand (Logo)"
-                      >
-                        <MenuItem value="-">Tidak Pakai</MenuItem>
-                        <Divider />
-                        <MenuItem value="Nusanet">Nusanet</MenuItem>
-                        <MenuItem value="Nusaid Cloud">Nusaid Cloud</MenuItem>
-                        <MenuItem value="Nusafiber">Nusafiber</MenuItem>
-                        <MenuItem value="Nusawork">Nusawork</MenuItem>
-                        <MenuItem value="Nusaprospect">Nusaprospect</MenuItem>
-                      </Select>
-                    </FormControl>
-                    
-                  </div>
 
                   <div className="mb-3">
                     <TextField
